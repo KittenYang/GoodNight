@@ -155,25 +155,40 @@
 }
 
 + (void)setGammaWithOrangeness:(float)percentOrange {
-    if (percentOrange > 1 || percentOrange < 0) {
-        return;
-    }
-    
-    float hectoKelvin = percentOrange * 45 + 20;
-    float red = 255.0;
-    float green = -155.25485562709179 + -0.44596950469579133 * (hectoKelvin - 2) + 104.49216199393888 * log(hectoKelvin - 2);
-    float blue = -254.76935184120902 + 0.8274096064007395 * (hectoKelvin - 10) + 115.67994401066147 * log(hectoKelvin - 10);
-    
-    if (percentOrange == 1) {
-        green = 255.0;
-        blue = 255.0;
-    }
-    
-    red /= 255.0;
-    green /= 255.0;
-    blue /= 255.0;
-    
-    [self setGammaWithRed:red green:green blue:blue];
+//    if (percentOrange > 1 || percentOrange < 0) {
+//        return;
+//    }
+//    
+//    float hectoKelvin = percentOrange * 45 + 20;
+//    float red = 255.0;
+//    float green = -155.25485562709179 + -0.44596950469579133 * (hectoKelvin - 2) + 104.49216199393888 * log(hectoKelvin - 2);
+//    float blue = -254.76935184120902 + 0.8274096064007395 * (hectoKelvin - 10) + 115.67994401066147 * log(hectoKelvin - 10);
+//    
+//    if (percentOrange == 1) {
+//        green = 255.0;
+//        blue = 255.0;
+//    }
+//    
+//    red /= 255.0;
+//    green /= 255.0;
+//    blue /= 255.0;
+//    
+//    [self setGammaWithRed:red green:green blue:blue];
+  percentOrange = percentOrange/7.5;
+  if (percentOrange > 1)
+    percentOrange = 1;
+  else if (percentOrange < 0)
+    percentOrange = 0;
+  
+  float blue = 1.0;
+  float red = 1 - percentOrange;
+  float green = (red + blue)/2.0;
+  
+  if (percentOrange == 0) {
+    red = blue = green = 0.99;
+  }
+  
+  [self setGammaWithRed:red green:green blue:blue];
 }
 
 + (void)autoChangeOrangenessIfNeededWithTransition:(BOOL)transition {
